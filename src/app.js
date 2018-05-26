@@ -2,6 +2,10 @@ import React from 'react'
 import { hot } from 'react-hot-loader'
 import styled from 'styled-components'
 
+import data from './data.json'
+
+// TODO: Mobile version
+
 const Wrapper = styled.div`
   padding: 50px;
   text-align: center;
@@ -40,18 +44,21 @@ const QuizContent = styled.div`
 const Answers = styled.div``
 
 const App = () => {
+  const quiz = data.map((dat) => dat.quiz)[0]
+
   return (
     <Wrapper>
       <Card>
         <CardTitle>
-          <Question>What is this a picture of?</Question>
+          <Question>{quiz.title}</Question>
         </CardTitle>
-        <img src='https://cdn.articulate.com/rise/courses/_Af0P0L1E-1akg7PhqRPNyg0uRFD0pUp/d229V-nstxA6tZdi.gif' />
+        <img src={quiz.image} />
         <QuizContent>
           <Answers>
             <ul>
-              <li>this and like that</li>
-              <li>and like this and a ugh</li>
+              {quiz.choices.map((choice, index) =>
+                <li key={index}>{choice.response}</li>
+              )}
             </ul>
           </Answers>
         </QuizContent>
