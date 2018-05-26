@@ -1,6 +1,7 @@
 {
   "plugins": [
-    "react-hot-loader/babel"
+    "react-hot-loader/babel",
+    ["styled-components", { "displayName": true }]
   ],
   "presets": ["react", "es2015"],
 }

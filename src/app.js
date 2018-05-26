@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   padding: 50px;
   text-align: center;
 `
+Wrapper.displayName = 'Wrapper'
 
 const Card = styled.div`
   display: inline-flex;
@@ -21,17 +22,21 @@ const Card = styled.div`
   box-sizing: border-box;
   box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0,0,0,.05);
 `
+Card.displayName = 'Card'
+
 const CardTitle = styled.div`
   text-align: left;
   font-size: 1.3rem;
   padding-bottom: 20px;
 `
+CardTitle.displayName = 'CardTitle'
 
 // Chrome was adding stupid margin
 const Question = styled.p`
   padding: 0;
   margin:0
 `
+Question.displayName = 'Question'
 
 const QuizContent = styled.div`
   display: flex;
@@ -42,6 +47,7 @@ const QuizContent = styled.div`
 `
 
 const Answers = styled.div``
+Answers.displayName = 'Answers'
 
 const App = () => {
   const quiz = data.map((dat) => dat.quiz)[0]
