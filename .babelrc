@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "babel-plugin-transform-class-properties",
     "react-hot-loader/babel",
     ["styled-components", { "displayName": true }]
   ],

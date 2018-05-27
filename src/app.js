@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
 import styled from 'styled-components'
 
@@ -65,65 +65,113 @@ const Answers = styled.div`
 `
 Answers.displayName = 'Answers'
 
-const App = () => {
-  const quiz = data.map((dat) => dat.quiz)[0]
-  // const check = '\002714'
+const Answer = styled.li`
 
-  return (
-    <Wrapper>
-      <Card>
-        <CardTitle>
-          <Question>{quiz.title}</Question>
-        </CardTitle>
-        <img src={quiz.image} />
-        <QuizContent>
-          <Answers>
-            <ul>
-              {quiz.choices.map((choice, index) =>
-                <li key={index}>
-                  <label
-                    style={{
-                      padding: '30px 20px',
-                      display: 'flex',
-                      flex: '0 1 100%'
-                    }}
-                    htmlFor={`option-${index}`}
-                    role='radio'>
-                    <input
-                      style={{ display: 'none' }}
-                      id={`option-${index}`}
-                      type='radio' />
-                    <div
+`
+Answer.displayName = 'Answer'
+
+const RadioButton = styled.div`
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #707070;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color .3s;
+
+  & > span {
+    display: flex;
+    align-items: center;
+    transform: scale(.6);
+    transition: opacity .3s,transform .3s;
+    content: 'blah';
+    position: absolute;
+    top: 20%;
+    left: 19%;
+    display: block;
+    width: .6rem;
+    height: .6rem;
+    background: rgba(49,53,55,.8);
+    border-radius: 50%;
+    ${({ isSelected }) => isSelected ? 'opacity: 1' : 'opacity: 0'};
+  }
+`
+
+class App extends Component {
+  state = {
+    selected: null
+  }
+
+  render () {
+    const quiz = data.map((dat) => dat.quiz)[0]
+
+    return (
+      <Wrapper>
+        <Card>
+          <CardTitle>
+            <Question>{quiz.title}</Question>
+          </CardTitle>
+          <img src={quiz.image} />
+          <QuizContent>
+            <Answers>
+              <ul>
+                {quiz.choices.map((choice, index) => {
+                  // I'm not sure why the integer is being transformed to a string ¯\_(ツ)_/¯
+                  const selectedToNum = parseInt(this.state.selected, 10)
+
+                  return (
+                    <Answer
+                    key={index}
+                    onChange={(event) => this.handleClick(event)}>
+                    <label
                       style={{
-                        position: 'relative',
+                        padding: '30px 20px',
                         display: 'flex',
-                        flexShrink: '0',
-                        width: '1rem',
-                        height: '1rem',
-                        border: '1px solid #707070',
-                        borderRadius: '50%',
-                        cursor: 'pointer',
-                        transition: 'border-color .3s'
-                      }}>
-                      {/* &#10004; */}
-                      <i
-                        style={{ fontSize: '1em', color: '#747a7e' }}
-                        className='material-icons'>
-                        {/* check */}
-                        clear {/* #313537 */}
-                      </i>
-                    </div>
-                    <div style={{ marginLeft: '20px' }}>
-                      {choice.response}
-                    </div>
-                  </label>
-                </li>
-              )}
-            </ul>
-          </Answers>
-        </QuizContent>
-      </Card>
-    </Wrapper>
-  )
+                        flex: '0 1 100%'
+                      }}
+                      htmlFor={`option-${index}`}
+                      role='radio'>
+                      <input
+                        style={{ display: 'none' }}
+                        id={`option-${index}`}
+                        name={choice.response}
+                        value={index}
+                        checked={index === selectedToNum}
+                        type='radio' />
+                      <RadioButton isSelected={index === selectedToNum}>
+                        <span>
+                          <i
+                            style={{ fontSize: '1em', color: '#747a7e' }}
+                            className='material-icons'>
+                            {/* check */}
+                            {/* clear #313537  */}
+                          </i>
+                        </span>
+                      </RadioButton>
+                      <div style={{ marginLeft: '20px' }}>
+                        {choice.response}
+                      </div>
+                    </label>
+                  </Answer>
+                )}
+                )}
+              </ul>
+            </Answers>
+          </QuizContent>
+        </Card>
+      </Wrapper>
+    )
+  }
+
+  handleClick = (event) => this.setState({ selected: event.target.value })
+
+
+  // isSelected = (index) => {
+  //   console.log(index, this.state.selected)
+  //   return
+  // }
 }
+
 export default hot(module)(App)
