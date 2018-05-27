@@ -24,6 +24,19 @@ const Card = styled.div`
 `
 Card.displayName = 'Card'
 
+const CardContent = styled.div`
+  margin-bottom: 15px;
+`
+CardContent.displayName = 'CardContent'
+
+const ImageContainer = styled.figure`
+  margin: 0;
+
+  & > img {
+    width: 100%;
+  }
+`
+
 const CardTitle = styled.div`
   text-align: left;
   font-size: 1.3rem;
@@ -110,6 +123,39 @@ const RadioButton = styled.div`
 `
 RadioButton.displayName = 'RadioButton'
 
+const SubmitQuiz = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: center;
+  width: 100%;
+
+  & > button {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    min-width: 100px;
+    max-width: 170px;
+    height: 40px;
+    cursor: pointer;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: Lato, sans-serif;
+    font-size: 12px;
+    line-height: 34px;
+    color: #fff;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    background-color: silver;
+    border-radius: 2em;
+    transition: background .3s,color .3s,opacity .3s;
+  }
+`
+SubmitQuiz.displayName = 'SubmitQuiz'
+
 class App extends Component {
   state = {
     selected: null
@@ -123,50 +169,55 @@ class App extends Component {
     return (
       <Wrapper>
         <Card>
-          <CardTitle>
-            <Question>{quiz.title}</Question>
-          </CardTitle>
-          <img src={quiz.image} />
-          <QuizContent>
-            <Answers>
-              <ul>
-                {quiz.choices.map((choice, index) => {
-                  // I'm not sure why the integer is being transformed to a string ¯\_(ツ)_/¯
-                  const selectedToNum = parseInt(this.state.selected, 10)
+          <CardContent>
+            <CardTitle>
+              <Question>{quiz.title}</Question>
+            </CardTitle>
+            <ImageContainer><img src={quiz.image} /></ImageContainer>
+            <QuizContent>
+              <Answers>
+                <ul>
+                  {quiz.choices.map((choice, index) => {
+                    // I'm not sure why the integer is being transformed to a string ¯\_(ツ)_/¯
+                    const selectedToNum = parseInt(this.state.selected, 10)
 
-                  return (
-                    <Answer
-                    key={index}
-                    onChange={(event) => this.handleClick(event)}>
-                    <RadioLabel
-                      htmlFor={`option-${index}`}
-                      role='radio'>
-                      <input
-                        id={`option-${index}`}
-                        name={choice.response}
-                        value={index}
-                        checked={index === selectedToNum}
-                        type='radio' />
-                      <RadioButton isSelected={index === selectedToNum}>
-                        <span>
-                          <i
-                            style={{ fontSize: '1em', color: '#747a7e' }}
-                            className='material-icons'>
-                            {/* check */}
-                            {/* clear #313537  */}
-                          </i>
-                        </span>
-                      </RadioButton>
-                      <div style={{ marginLeft: '20px' }}>
-                        {choice.response}
-                      </div>
-                    </RadioLabel>
-                  </Answer>
-                )}
-                )}
-              </ul>
-            </Answers>
-          </QuizContent>
+                    return (
+                      <Answer
+                      key={index}
+                      onChange={(event) => this.handleClick(event)}>
+                      <RadioLabel
+                        htmlFor={`option-${index}`}
+                        role='radio'>
+                        <input
+                          id={`option-${index}`}
+                          name={choice.response}
+                          value={index}
+                          checked={index === selectedToNum}
+                          type='radio' />
+                        <RadioButton isSelected={index === selectedToNum}>
+                          <span>
+                            <i
+                              style={{ fontSize: '1em', color: '#747a7e' }}
+                              className='material-icons'>
+                              {/* check */}
+                              {/* clear #313537  */}
+                            </i>
+                          </span>
+                        </RadioButton>
+                        <div style={{ marginLeft: '20px' }}>
+                          {choice.response}
+                        </div>
+                      </RadioLabel>
+                    </Answer>
+                  )}
+                  )}
+                </ul>
+              </Answers>
+            </QuizContent>
+            <SubmitQuiz>
+              <button>Submit</button>
+            </SubmitQuiz>
+          </CardContent>
         </Card>
       </Wrapper>
     )
