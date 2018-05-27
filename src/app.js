@@ -69,6 +69,7 @@ const RadioLabel = styled.label`
     display: none;
   }
 `
+RadioLabel.displayName = 'RadioLabel'
 
 const Answer = styled.li`
   width: 100%;
@@ -107,11 +108,14 @@ const RadioButton = styled.div`
     ${({ isSelected }) => isSelected ? 'opacity: 1' : 'opacity: 0'};
   }
 `
+RadioButton.displayName = 'RadioButton'
 
 class App extends Component {
   state = {
     selected: null
   }
+
+  handleClick = (event) => this.setState({ selected: event.target.value })
 
   render () {
     const quiz = data.map((dat) => dat.quiz)[0]
@@ -167,8 +171,6 @@ class App extends Component {
       </Wrapper>
     )
   }
-
-  handleClick = (event) => this.setState({ selected: event.target.value })
 }
 
 export default hot(module)(App)
