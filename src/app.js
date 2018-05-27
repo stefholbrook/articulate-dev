@@ -46,11 +46,28 @@ const QuizContent = styled.div`
   border-top: 1px solid #eaeaeb;
 `
 
-const Answers = styled.div``
+const Answers = styled.div`
+  & > ul {
+    list-style: none;
+    text-align: left;
+    font-family: Lato, sans-serif;
+    color: #313537;
+    padding: 0;
+  }
+
+  ${'' /* & > li {
+    width: 100%
+  } */}
+
+  ${'' /* & > input {
+    display: none;
+  } */}
+`
 Answers.displayName = 'Answers'
 
 const App = () => {
   const quiz = data.map((dat) => dat.quiz)[0]
+  // const check = '\002714'
 
   return (
     <Wrapper>
@@ -63,7 +80,44 @@ const App = () => {
           <Answers>
             <ul>
               {quiz.choices.map((choice, index) =>
-                <li key={index}>{choice.response}</li>
+                <li key={index}>
+                  <label
+                    style={{
+                      padding: '30px 20px',
+                      display: 'flex',
+                      flex: '0 1 100%'
+                    }}
+                    htmlFor={`option-${index}`}
+                    role='radio'>
+                    <input
+                      style={{ display: 'none' }}
+                      id={`option-${index}`}
+                      type='radio' />
+                    <div
+                      style={{
+                        position: 'relative',
+                        display: 'flex',
+                        flexShrink: '0',
+                        width: '1rem',
+                        height: '1rem',
+                        border: '1px solid #707070',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        transition: 'border-color .3s'
+                      }}>
+                      {/* &#10004; */}
+                      <i
+                        style={{ fontSize: '1em', color: '#747a7e' }}
+                        className='material-icons'>
+                        {/* check */}
+                        clear {/* #313537 */}
+                      </i>
+                    </div>
+                    <div style={{ marginLeft: '20px' }}>
+                      {choice.response}
+                    </div>
+                  </label>
+                </li>
               )}
             </ul>
           </Answers>
