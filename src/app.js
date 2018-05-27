@@ -47,6 +47,8 @@ const QuizContent = styled.div`
 `
 
 const Answers = styled.div`
+  width: 100%;
+
   & > ul {
     list-style: none;
     text-align: left;
@@ -54,19 +56,26 @@ const Answers = styled.div`
     color: #313537;
     padding: 0;
   }
-
-  ${'' /* & > li {
-    width: 100%
-  } */}
-
-  ${'' /* & > input {
-    display: none;
-  } */}
 `
 Answers.displayName = 'Answers'
 
-const Answer = styled.li`
+const RadioLabel = styled.label`
+  display: flex;
+  flex: 0 1 100%;
+  padding: 30px 20px;
+  cursor: pointer;
 
+  & > input {
+    display: none;
+  }
+`
+
+const Answer = styled.li`
+  width: 100%;
+
+  &:hover {
+    background-color: #f7f7f8;
+  }
 `
 Answer.displayName = 'Answer'
 
@@ -81,12 +90,12 @@ const RadioButton = styled.div`
   cursor: pointer;
   transition: border-color .3s;
 
-  & > span {
+  &:after {
     display: flex;
     align-items: center;
     transform: scale(.6);
     transition: opacity .3s,transform .3s;
-    content: 'blah';
+    content: '';
     position: absolute;
     top: 20%;
     left: 19%;
@@ -125,16 +134,10 @@ class App extends Component {
                     <Answer
                     key={index}
                     onChange={(event) => this.handleClick(event)}>
-                    <label
-                      style={{
-                        padding: '30px 20px',
-                        display: 'flex',
-                        flex: '0 1 100%'
-                      }}
+                    <RadioLabel
                       htmlFor={`option-${index}`}
                       role='radio'>
                       <input
-                        style={{ display: 'none' }}
                         id={`option-${index}`}
                         name={choice.response}
                         value={index}
@@ -153,7 +156,7 @@ class App extends Component {
                       <div style={{ marginLeft: '20px' }}>
                         {choice.response}
                       </div>
-                    </label>
+                    </RadioLabel>
                   </Answer>
                 )}
                 )}
@@ -166,12 +169,6 @@ class App extends Component {
   }
 
   handleClick = (event) => this.setState({ selected: event.target.value })
-
-
-  // isSelected = (index) => {
-  //   console.log(index, this.state.selected)
-  //   return
-  // }
 }
 
 export default hot(module)(App)
