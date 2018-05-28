@@ -59,7 +59,7 @@ const QuizContent = styled.div`
   border-top: 1px solid #eaeaeb;
 `
 
-const Answers = styled.div`
+const Answers = styled.form`
   width: 100%;
 
   & > ul {
@@ -90,6 +90,9 @@ const Answer = styled.li`
   &:hover {
     background-color: #f7f7f8;
   }
+
+  ${({ submitForm }) => submitForm && 'transition: border .3s .20s,right 0ms .72s;'};
+  ${({ submitForm }) => submitForm && 'border: 2px solid #747a7e'};
 `
 Answer.displayName = 'Answer'
 
@@ -118,7 +121,9 @@ const RadioButton = styled.div`
     height: .6rem;
     background: rgba(49,53,55,.8);
     border-radius: 50%;
-    ${({ isSelected }) => isSelected ? 'opacity: 1' : 'opacity: 0'};
+    ${({ isSelected, submitForm }) =>
+      !isSelected || submitForm ? 'opacity: 0' : 'opacity: 1'
+    };
   }
 `
 RadioButton.displayName = 'RadioButton'
@@ -138,7 +143,7 @@ const SubmitQuiz = styled.div`
     min-width: 100px;
     max-width: 170px;
     height: 40px;
-    cursor: pointer;
+    ${({ isSelected }) => isSelected ? 'cursor: pointer' : 'cursor: default'};
     font-weight: 400;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -149,22 +154,53 @@ const SubmitQuiz = styled.div`
     color: #fff;
     border: 2px solid transparent;
     box-sizing: border-box;
-    background-color: silver;
+    ${({ isSelected }) =>
+      isSelected ? 'background-color: #747a7e' : 'background-color: silver'};
     border-radius: 2em;
     transition: background .3s,color .3s,opacity .3s;
+  }
+
+  & > button:hover {
+    background-color: silver;
+  }
+
+  & > button:focus {
+    outline:0;
   }
 `
 SubmitQuiz.displayName = 'SubmitQuiz'
 
+const ChoiceBorder = styled.span``
+
+
 class App extends Component {
   state = {
-    selected: null
+    select: null,
+    submitForm: false
   }
 
-  handleClick = (event) => this.setState({ selected: event.target.value })
+  handleClick = () => this.setState({ select: this.list.answer.value })
+
+  handleSubmit = (disabled) => (event) => {
+    event.preventDefault()
+
+    if (disabled) return null
+
+    this.setState({ submitForm: true })
+  }
+
+  selectAnswer = (index) => {
+    // I'm not sure why the integer is being transformed to a string ¯\_(ツ)_/¯
+    const selectedToNum = parseInt(this.state.select, 10)
+
+    return index === selectedToNum
+  }
 
   render () {
+    const { select, submitForm } = this.state
     const quiz = data.map((dat) => dat.quiz)[0]
+    const answer = this.list && this.list.answer.value
+    const disableForm = !(answer === select)
 
     return (
       <Wrapper>
@@ -173,49 +209,57 @@ class App extends Component {
             <CardTitle>
               <Question>{quiz.title}</Question>
             </CardTitle>
-            <ImageContainer><img src={quiz.image} /></ImageContainer>
+            <ImageContainer>
+              <img src={quiz.image} />
+            </ImageContainer>
             <QuizContent>
-              <Answers>
+              <Answers
+                innerRef={(el) => { this.list = el }}
+                onChange={this.handleClick}>
                 <ul>
                   {quiz.choices.map((choice, index) => {
-                    // I'm not sure why the integer is being transformed to a string ¯\_(ツ)_/¯
-                    const selectedToNum = parseInt(this.state.selected, 10)
-
                     return (
                       <Answer
                       key={index}
-                      onChange={(event) => this.handleClick(event)}>
+                      isSelected={this.selectAnswer(index)}>
                       <RadioLabel
                         htmlFor={`option-${index}`}
                         role='radio'>
                         <input
                           id={`option-${index}`}
-                          name={choice.response}
+                          name='answer'
                           value={index}
-                          checked={index === selectedToNum}
+                          checked={this.selectAnswer(index)}
                           type='radio' />
-                        <RadioButton isSelected={index === selectedToNum}>
+                        <RadioButton
+                          isSelected={this.selectAnswer(index)}
+                          submitForm={submitForm}>
                           <span>
-                            <i
-                              style={{ fontSize: '1em', color: '#747a7e' }}
-                              className='material-icons'>
-                              {/* check */}
-                              {/* clear #313537  */}
-                            </i>
+                            {submitForm && (
+                              <i
+                                style={{ fontSize: '1em', color: '#747a7e' }}
+                                className='material-icons'>
+                                {choice.correct ? 'check' : 'clear'}
+                                {/* clear #313537  */}
+                              </i>
+                            )}
                           </span>
                         </RadioButton>
                         <div style={{ marginLeft: '20px' }}>
                           {choice.response}
                         </div>
                       </RadioLabel>
+                      <ChoiceBorder />
                     </Answer>
                   )}
                   )}
                 </ul>
               </Answers>
             </QuizContent>
-            <SubmitQuiz>
-              <button>Submit</button>
+            <SubmitQuiz isSelected={answer === select}>
+              <button type='submit' onClick={this.handleSubmit(disableForm)}>
+                Submit
+              </button>
             </SubmitQuiz>
           </CardContent>
         </Card>
