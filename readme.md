@@ -6,7 +6,7 @@ This app is my version of the "Knowledge Check Block"
 
 * Pull down the code: `git clone git@github.com:stefholbrook/articulate-dev.git` and get all the packages with `npm install`
 
-* Get it running 🏍 `npm start`
+* Get it running 🏍 `npm start`. (Note: Make sure you don't have anything running on port 3000.)
 
 * Go ahead. Take a look 👀 visit `localhost:3000`
 
