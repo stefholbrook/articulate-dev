@@ -4,7 +4,7 @@ This app is my version of the "Knowledge Check Block"
 
 ## Get Started
 
-* Pull down the code: `git clone git@github.com:stefholbrook/articulate-dev.git`
+* Pull down the code: `git clone git@github.com:stefholbrook/articulate-dev.git` and get all the packages with `npm install`
 
 * Get it running 🏍 `npm start`
 
