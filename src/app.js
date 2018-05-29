@@ -16,7 +16,7 @@ import {
   Question,
   QuizContent,
   Answers
-} from './styled'
+} from './styled-app'
 
 class App extends Component {
   state = {
