@@ -13,6 +13,6 @@ This app is my version of the "Knowledge Check Block"
 ## Things to visit
 
 * Border transition on the selection
-* Figure out why the circle when a choice is selected moves around
+* Figure out why the dot when a choice is selected moves around 😓
 * Tests
 * Visit server side rendering of styles (because it would be fun!)
