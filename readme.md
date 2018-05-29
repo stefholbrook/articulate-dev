@@ -4,33 +4,15 @@ This app is my version of the "Knowledge Check Block"
 
 ## Get Started
 
-* Pull down the code:
+* Pull down the code: `git clone git@github.com:stefholbrook/articulate-dev.git`
 
-  `git clone git@github.com:stefholbrook/articulate-dev.git`
-* Get it running
+* Get it running 🏍 `npm start`
 
-  `npm start`
-* Visit `localhost:3000`
+* Go ahead. Take a look 👀 visit `localhost:3000`
 
-## Context
+## Things to visit
 
-Where do they live and when/how should we (not) use them?
-
-## Decision
-
-* Styled components are the final home for styles
-* Inline styles are good for exploratory styling
-* Organization
-  * In the file next door rather than index
-  * Name the file components/styled.js or components/styled/{component-name}.js in our current page based organization
-* Importing:
-  ```javascript
-  import { Thing } from 'styled-things.js'
-
-  <Thing />
-  ```
-
-
-## Consequences
-
-Consistency in how styled components are organized and used.
+* Border transition on the selection
+* Figure out why the circle when a choice is selected moves around
+* Tests
+* Visit server side rendering of styles (because it would be fun!)
