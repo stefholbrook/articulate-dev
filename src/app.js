@@ -250,8 +250,8 @@ class App extends Component {
   render () {
     const { feedbackHeight, isOpen, select, submitForm } = this.state
     const quiz = data.map((dat) => dat.quiz)[0]
-    const answer = this.list && this.list.answer.value
-    const isSelected = answer === select
+    const answer = this.list ? this.list.answer.value : ''
+    const isSelected = answer && answer === select
 
     return (
       <Wrapper>
@@ -275,15 +275,14 @@ class App extends Component {
                         submitForm={submitForm}
                         htmlFor={`option-${index}`}
                         role='radio'>
-                        {!submitForm && (
-                          <input
-                            id={`option-${index}`}
-                            name='answer'
-                            value={index}
-                            checked={this.selectAnswer(index)}
-                            onChange={this.handleClick}
-                            type='radio' />
-                        )}
+                        <input
+                          id={`option-${index}`}
+                          name='answer'
+                          value={index}
+                          disabled={submitForm}
+                          checked={this.selectAnswer(index)}
+                          onChange={this.handleClick}
+                          type='radio' />
                         <RadioButton
                           isSelected={this.selectAnswer(index)}
                           submitForm={submitForm}>
