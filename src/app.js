@@ -107,11 +107,6 @@ class App extends Component {
       })
       .then((data) => console.log(data))
       .catch((err) => console.log(err))
-
-    // axios
-    //   .get('http://localhost:3000/api/knowledge_check')
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err))
   }
 }
 
