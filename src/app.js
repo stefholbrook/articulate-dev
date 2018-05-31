@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
 
-import data from './data.json'
+import axios from 'axios'
+
+import data from '../public/data.json'
 
 import Content from './components/content'
 import QuizFeedback from './components/quiz-feedback'
@@ -96,6 +98,20 @@ class App extends Component {
         </Card>
       </Wrapper>
     )
+  }
+
+  componentDidMount () {
+    window.fetch('http://localhost:3000/api/knowledge_check')
+      .then((response) => {
+        if (response.ok) return response.json()
+      })
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err))
+
+    // axios
+    //   .get('http://localhost:3000/api/knowledge_check')
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err))
   }
 }
 
