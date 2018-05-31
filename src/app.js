@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
 
-import axios from 'axios'
-
 import data from '../public/data.json'
 
 import Content from './components/content'
@@ -24,7 +22,9 @@ class App extends Component {
   state = {
     select: null,
     submitForm: false,
-    isOpen: false
+    isOpen: false,
+    quiz: [],
+    isLoading: true
   }
 
   handleClick = () => this.setState({ select: this.list.answer.value })
@@ -46,8 +46,8 @@ class App extends Component {
 
   isCorrectAnswer = (data) => {
     const selectedToNum = parseInt(this.state.select, 10)
-    const correctChoice = data
-      .map((dat) => dat.quiz)[0].choices
+    const correctChoice = this.state.quiz
+      .map((q) => q)[0].choices
       .find((choice) => choice.correct === true)
 
     return correctChoice.id === selectedToNum
@@ -58,25 +58,27 @@ class App extends Component {
 
 
   render () {
-    const { feedbackHeight, isOpen, select, submitForm } = this.state
-    const quiz = data.map((dat) => dat.quiz)[0]
+    const { feedbackHeight, isOpen, quiz, select, submitForm } = this.state
+    const currentQuiz = quiz ? quiz[0] : {}
     const answer = this.list ? this.list.answer.value : ''
     const isSelected = answer && answer === select
+
+    if (this.state.isLoading) return null
 
     return (
       <Wrapper>
         <Card>
           <CardContent>
             <CardTitle>
-              <Question>{quiz.title}</Question>
+              <Question>{currentQuiz.title}</Question>
             </CardTitle>
             <ImageContainer>
-              <img src={quiz.image} />
+              <img src={currentQuiz.image} />
             </ImageContainer>
             <QuizContent>
               <Answers innerRef={(el) => { this.list = el }}>
                 <Content
-                  quiz={quiz}
+                  quiz={currentQuiz}
                   handleClick={this.handleClick}
                   selectAnswer={this.selectAnswer}
                   submitForm={submitForm}
@@ -102,10 +104,8 @@ class App extends Component {
 
   componentDidMount () {
     window.fetch('http://localhost:3000/api/knowledge_check')
-      .then((response) => {
-        if (response.ok) return response.json()
-      })
-      .then((data) => console.log(data))
+      .then((response) => response.json())
+      .then((data) => this.setState(() => ({ quiz: data, isLoading: false })))
       .catch((err) => console.log(err))
   }
 }

@@ -6,7 +6,7 @@ import {
   RadioButton
 } from './styled/content'
 
-const Content = ({ quiz, handleClick, selectAnswer, submitForm }) => {
+const Content = ({ quiz = {}, handleClick, selectAnswer, submitForm }) => {
   return (
     <ul>
       {quiz.choices.map((choice, index) =>

@@ -1,21 +1,19 @@
 [
   {
-    "quiz": {
-      "id": 0,
-      "title": "What is this a picture of?",
-      "image": "https://cdn.articulate.com/rise/courses/_Af0P0L1E-1akg7PhqRPNyg0uRFD0pUp/d229V-nstxA6tZdi.gif",
-      "choices": [
-        {
-          "id": 0,
-          "response": "Cookies and coffee",
-          "correct": true
-        },
-        {
-          "id": 1,
-          "response": "Donuts and cider",
-          "correct": false
-        }
-      ]
-    }
+    "id": 0,
+    "title": "What is this a picture of?",
+    "image": "https://cdn.articulate.com/rise/courses/_Af0P0L1E-1akg7PhqRPNyg0uRFD0pUp/d229V-nstxA6tZdi.gif",
+    "choices": [
+      {
+        "id": 0,
+        "response": "Cookies and coffee",
+        "correct": true
+      },
+      {
+        "id": 1,
+        "response": "Donuts and cider",
+        "correct": false
+      }
+    ]
   }
 ]
