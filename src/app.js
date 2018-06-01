@@ -32,6 +32,10 @@ class App extends Component {
 
     if (disabled) return null
 
+    const attemptCount = parseInt(localStorage.getItem('attempt'), 10) || 0
+
+    localStorage.setItem('attempt', attemptCount + 1)
+
     this.setState(({ isOpen }) => ({ submitForm: true, isOpen: !isOpen }))
   }
 
@@ -47,8 +51,15 @@ class App extends Component {
     const correctChoice = data
       .map((dat) => dat.quiz)[0].choices
       .find((choice) => choice.correct === true)
+    const correct = correctChoice.id === selectedToNum
 
-    return correctChoice.id === selectedToNum
+    if (correct) {
+      const correctCount = parseInt(localStorage.getItem('correct'), 10) || 0
+
+      localStorage.setItem('correct', correctCount + 1)
+    }
+
+    return correct
   }
 
   resetForm = () =>
